@@ -51,7 +51,7 @@ class DataEngine:
 
 		# Data length
 		self.stock_data_length = []
-		
+
 		# Create an instance of the Binance Client with no api key and no secret (api key and secret not required for the functionality needed for this script)
 		self.binance_client = Client("","")
 
@@ -171,14 +171,14 @@ class DataEngine:
 			symbol = self.stocks_list[i]
 			try:
 				stock_price_data, future_prices, not_found = self.get_data(symbol)
-					
+
 				if not not_found:
 					volatility = self.calculate_volatility(stock_price_data)
 
 					# Filter low volatility stocks
 					if volatility < self.VOLATILITY_THRESHOLD:
 						continue
-						
+
 					features_dictionary = self.taEngine.get_technical_indicators(stock_price_data)
 					feature_list = self.taEngine.get_features(features_dictionary)
 
@@ -216,7 +216,7 @@ class DataEngine:
 		# Load data from dictionary
 		print("Loading data from dictionary")
 		dictionary_data = np.load(self.DICT_PATH, allow_pickle = True).item()
-		
+
 		features = []
 		symbol_names = []
 		historical_price_info = []
@@ -225,7 +225,7 @@ class DataEngine:
 			feature_list = self.taEngine.get_features(dictionary_data[symbol]["features"])
 			current_prices = dictionary_data[symbol]["current_prices"]
 			future_prices = dictionary_data[symbol]["future_prices"]
-			
+
 			# Check if there is any null value
 			if np.isnan(feature_list).any() == True:
 				continue
